@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>constructor-selector</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .my_text{
+            width:99%;
+            height:100%;
+        }
+        .my_testarea{
+            height: 500px;
+        }
+        .my_buttom {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="my_buttom">
+    <button class="btn" data-clipboard-action="copy" data-clipboard-target="#bar">
+        Cut to clipboard
+    </button>
+    <button class="btn" onClick="paste()";>
+        paste from clipboard
+    </button>
+</div>
+
+<!-- Target -->
+<div class="my_testarea">
+    <textarea id="bar" class="my_text" oninput="OnInput (event)" onpropertychange="OnPropChanged (event)"><%=data%></textarea>
+</div>
+
+<!-- Trigger -->
+
+
+<!-- 2. Include library -->
+<script src="static/clipboard.js"></script>
+<script src="static/axios.min.js"></script>
+
+
+<!-- 3. Instantiate clipboard by passing a string selector -->
+<script>
+    function paste() {
+        var obj=document.getElementById("bar");
+        var clipboard = window.clipboardData.getData('Text');
+        clipboard == null ? alert('no data') : obj.value = clipboard;
+    }
+
+    function OnInput (event) {
+        //alert ("The new content: " + event.target.value);
+        SendData(event.srcElement.value);
+    }
+    // Internet Explorer
+    function OnPropChanged (event) {
+        if (event.propertyName.toLowerCase () == "value") {
+            //alert("The new content: " + event.srcElement.value);
+            SendData(event.srcElement.value);
+        }
+    }
+
+    function SendData(data) {
+        axios.post('/data', {
+            data:data
+        })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+    }
+
+    function GetData() {
+        axios.post('/get_data')
+                .then(function (response) {
+                    console.log(response);
+                    if(response.data || '')
+                        document.getElementById("bar").value=response.data;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+    }
+    window.setInterval("GetData()",1000);
+
+    var clipboard = new Clipboard('.btn');
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+</script>
+</body>
+</html>
