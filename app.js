@@ -69,7 +69,7 @@ app.get('/hello', restrict,function (req, res) {
 
 app.post('/data',function (req, res) {
   data = req.body.data;
-  console.log("修改缓存："+data);
+  //console.log("修改缓存："+data);
   res.send('success');
 });
 
