@@ -23,9 +23,6 @@
     <button class="btn" data-clipboard-action="copy" data-clipboard-target="#bar">
         Cut to clipboard
     </button>
-    <button class="btn" onClick="paste()";>
-        paste from clipboard
-    </button>
 </div>
 
 <!-- Target -->
@@ -43,11 +40,6 @@
 
 <!-- 3. Instantiate clipboard by passing a string selector -->
 <script>
-    function paste() {
-        var obj=document.getElementById("bar");
-        var clipboard = window.clipboardData.getData('Text');
-        clipboard == null ? alert('no data') : obj.value = clipboard;
-    }
 
     function OnInput (event) {
         //alert ("The new content: " + event.target.value);
