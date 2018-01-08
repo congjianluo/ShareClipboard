@@ -79,7 +79,7 @@ app.post('/get_data',function (req, res) {
 
 
 const hostname = '0.0.0.0';
-const port = 3000;
+const port = 80;
 
 app.listen(port, hostname,function () {
   console.log('Example app listening on http://' + hostname + ':' + port);
